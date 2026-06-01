@@ -30,7 +30,7 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 // Initialize Firestore (Must explicitly pass the custom firestoreDatabaseId)
-export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+export const db = getFirestore(app);
 
 // Mandated initial validation of Firebase Firestore connectivity
 async function testConnection() {
