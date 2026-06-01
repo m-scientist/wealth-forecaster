@@ -1,0 +1,6 @@
+{
+  "name": "Global Wealth Forecaster",
+  "description": "An interactive, multi-currency wealth projection tool with country-specific inflation, tax presets, and financial milestone tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

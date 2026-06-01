@@ -1,0 +1,172 @@
+import { CountryPreset } from "../../../types";
+
+export const COUNTRY_PRESETS: CountryPreset[] = [
+  {
+    id: "US",
+    name: "United States",
+    currency: "USD",
+    symbol: "$",
+    defaultInflation: 2.5,
+    defaultSavingsRate: 4.25,
+    defaultMarketReturn: 9.8,
+    taxRate: 15.0,
+    retirementAge: 67,
+    description: "World-class equity returns. Long-term average capital gains bracket around 15% with high liquidity."
+  },
+  {
+    id: "GB",
+    name: "United Kingdom",
+    currency: "GBP",
+    symbol: "£",
+    defaultInflation: 2.3,
+    defaultSavingsRate: 4.0,
+    defaultMarketReturn: 7.8,
+    taxRate: 20.0,
+    retirementAge: 67,
+    description: "Moderate local returns. CGT is typically 20% on shares; tax-shielded ISAs offer some shelter."
+  },
+  {
+    id: "EU",
+    name: "Germany / Eurozone",
+    currency: "EUR",
+    symbol: "€",
+    defaultInflation: 2.0,
+    defaultSavingsRate: 3.0,
+    defaultMarketReturn: 7.2,
+    taxRate: 26.37,
+    retirementAge: 67,
+    description: "High social security and conservative yields. Flat rate withholding tax (Abgeltungsteuer) around 26%."
+  },
+  {
+    id: "JP",
+    name: "Japan",
+    currency: "JPY",
+    symbol: "¥",
+    defaultInflation: 1.2,
+    defaultSavingsRate: 0.1,
+    defaultMarketReturn: 6.0,
+    taxRate: 20.315,
+    retirementAge: 65,
+    description: "Historically low yields and deflation struggles, but stable purchasing power and 20.3% flat profit tax."
+  },
+  {
+    id: "IN",
+    name: "India",
+    currency: "INR",
+    symbol: "₹",
+    defaultInflation: 5.2,
+    defaultSavingsRate: 6.5,
+    defaultMarketReturn: 12.0,
+    taxRate: 12.5,
+    retirementAge: 60,
+    description: "High nominal growth and inflation. Long-term capital gains at 12.5% for equity mutual funds."
+  },
+  {
+    id: "CA",
+    name: "Canada",
+    currency: "CAD",
+    symbol: "C$",
+    defaultInflation: 2.2,
+    defaultSavingsRate: 3.8,
+    defaultMarketReturn: 8.2,
+    taxRate: 25.0,
+    retirementAge: 65,
+    description: "Resource-driven index returns. Capital gains are 50% taxable at standard personal rates."
+  },
+  {
+    id: "AU",
+    name: "Australia",
+    currency: "AUD",
+    symbol: "A$",
+    defaultInflation: 2.6,
+    defaultSavingsRate: 4.15,
+    defaultMarketReturn: 8.6,
+    taxRate: 22.5,
+    retirementAge: 67,
+    description: "Strong local dividend yields. 50% discount on CGT for assets held longer than 12 months."
+  },
+  {
+    id: "SG",
+    name: "Singapore",
+    currency: "SGD",
+    symbol: "S$",
+    defaultInflation: 1.8,
+    defaultSavingsRate: 2.8,
+    defaultMarketReturn: 7.0,
+    taxRate: 0.0,
+    retirementAge: 65,
+    description: "Exceptional tax efficiency. Zero capital gains tax on investments creates superior compound cycles."
+  },
+  {
+    id: "BR",
+    name: "Brazil",
+    currency: "BRL",
+    symbol: "R$",
+    defaultInflation: 4.5,
+    defaultSavingsRate: 10.5,
+    defaultMarketReturn: 11.2,
+    taxRate: 15.0,
+    retirementAge: 65,
+    description: "Extremely high nominal local interest rates (Selic-bound cash holdings), balanced with elevated inflation."
+  },
+  {
+    id: "CH",
+    name: "Switzerland",
+    currency: "CHF",
+    symbol: "CHF ",
+    defaultInflation: 1.1,
+    defaultSavingsRate: 1.25,
+    defaultMarketReturn: 6.8,
+    taxRate: 0.0,
+    retirementAge: 65,
+    description: "Exceptional currency stability and zero capital gains tax for private investors, though wealth taxes apply."
+  },
+  {
+    id: "KE",
+    name: "Kenya",
+    currency: "KES",
+    symbol: "KSh",
+    defaultInflation: 5.5,
+    defaultSavingsRate: 7.5,
+    defaultMarketReturn: 11.5,
+    taxRate: 15.0,
+    retirementAge: 60,
+    description: "East Africa powerhouse. Solid local bond yields and 15% capital gains tax rate on transfer of property or shares."
+  },
+  {
+    id: "ZA",
+    name: "South Africa",
+    currency: "ZAR",
+    symbol: "R",
+    defaultInflation: 5.0,
+    defaultSavingsRate: 8.0,
+    defaultMarketReturn: 10.5,
+    taxRate: 18.0,
+    retirementAge: 65,
+    description: "Highly developed financial system. Generous interest exemption, with individual effective capital gains tax capped at 18%."
+  },
+  {
+    id: "NG",
+    name: "Nigeria",
+    currency: "NGN",
+    symbol: "₦",
+    defaultInflation: 15.0,
+    defaultSavingsRate: 12.0,
+    defaultMarketReturn: 18.0,
+    taxRate: 10.0,
+    retirementAge: 60,
+    description: "Highest nominal returns but subject to inflation pressure. High-yield local Treasury certificates offer 10% capital gains tax shelter."
+  },
+  {
+    id: "EG",
+    name: "Egypt",
+    currency: "EGP",
+    symbol: "E£",
+    defaultInflation: 14.0,
+    defaultSavingsRate: 15.0,
+    defaultMarketReturn: 19.0,
+    taxRate: 10.0,
+    retirementAge: 60,
+    description: "Elevated inflation with high double-digit commercial bank savings yields. Lower 10% tax rate on listed stock gains."
+  }
+];

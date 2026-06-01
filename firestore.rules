@@ -1,0 +1,130 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default Deny Gate
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Path verification to prevent poisoning
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isNumber(val) {
+      return val is int || val is float;
+    }
+
+    // Checks nested configuration properties
+    function isValidParams(params) {
+      return params is map
+        && params.countryId is string && params.countryId.size() <= 10
+        && params.startAge is int && params.startAge >= 0 && params.startAge <= 120
+        && params.projectionYears is int && params.projectionYears >= 1 && params.projectionYears <= 100
+        && isNumber(params.currentNetWorth)
+        && params.savingsAllocationCash is int && params.savingsAllocationCash >= 0 && params.savingsAllocationCash <= 100
+        && params.savingsAllocationInvestment is int && params.savingsAllocationInvestment >= 0 && params.savingsAllocationInvestment <= 100
+        && isNumber(params.expectedCashReturn)
+        && isNumber(params.expectedMarketReturn)
+        && isNumber(params.inflationRate)
+        && isNumber(params.annualIncomeIncrease)
+        && isNumber(params.annualExpensesIncrease)
+        && params.adjustForInflation is bool;
+    }
+
+    function isValidUserConfig(data) {
+      return data.keys().hasAll(['uid', 'email', 'createdAt', 'updatedAt', 'params', 'incomeStreams', 'expenseCategories', 'events'])
+        && data.keys().size() == 8
+        && data.uid is string && data.uid.size() <= 128
+        && data.email is string && data.email.size() <= 256
+        && isValidParams(data.params)
+        && data.incomeStreams is list && data.incomeStreams.size() <= 50
+        && data.expenseCategories is list && data.expenseCategories.size() <= 50
+        && data.events is list && data.events.size() <= 50;
+    }
+
+    function isValidScenario(data) {
+      return data.keys().hasAll(['id', 'name', 'description', 'incomeStreams', 'expenseCategories', 'events', 'ownerId', 'createdAt'])
+        && data.keys().size() == 8
+        && data.id is string && data.id.size() <= 128
+        && data.name is string && data.name.size() <= 128
+        && data.description is string && data.description.size() <= 500
+        && data.ownerId is string && data.ownerId.size() <= 128
+        && data.incomeStreams is list && data.incomeStreams.size() <= 50
+        && data.expenseCategories is list && data.expenseCategories.size() <= 50
+        && data.events is list && data.events.size() <= 50;
+    }
+
+    // User Configurations Match Block
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false; // Deny broad listing of configurations
+
+      allow create: if isOwner(userId)
+        && isValidId(userId)
+        && isValidUserConfig(incoming())
+        && incoming().uid == userId
+        && incoming().email == request.auth.token.email
+        && request.auth.token.email_verified == true
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+
+      allow update: if isOwner(userId)
+        && isValidId(userId)
+        && isValidUserConfig(incoming())
+        // Immutable properties checks
+        && incoming().uid == existing().uid
+        && incoming().createdAt == existing().createdAt
+        && incoming().email == existing().email
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly(['params', 'incomeStreams', 'expenseCategories', 'events', 'updatedAt']);
+
+      allow delete: if isOwner(userId);
+
+      // Scenarios sub-collection Match Block
+      match /scenarios/{scenarioId} {
+        allow get: if isOwner(userId);
+        allow list: if isOwner(userId);
+
+        allow create: if isOwner(userId)
+          && isValidId(userId)
+          && isValidId(scenarioId)
+          && isValidScenario(incoming())
+          && incoming().ownerId == userId
+          && incoming().id == scenarioId
+          && incoming().createdAt == request.time;
+
+        allow update: if isOwner(userId)
+          && isValidId(userId)
+          && isValidId(scenarioId)
+          && isValidScenario(incoming())
+          && incoming().ownerId == existing().ownerId
+          && incoming().createdAt == existing().createdAt
+          && incoming().id == existing().id
+          && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'description', 'incomeStreams', 'expenseCategories', 'events']);
+
+        allow delete: if isOwner(userId)
+          && isValidId(userId)
+          && isValidId(scenarioId);
+      }
+    }
+  }
+}

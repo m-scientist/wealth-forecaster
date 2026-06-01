@@ -1,0 +1,46 @@
+{
+  "entities": {
+    "UserConfig": {
+      "title": "UserConfig",
+      "description": "Personal active parameters and financial streams of the client.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Owner identifier" },
+        "email": { "type": "string", "description": "Primary email" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Design time" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last adjusted timestamp" },
+        "params": { "type": "object", "description": "Active projection variables" },
+        "incomeStreams": { "type": "array", "description": "Array of base active incomes" },
+        "expenseCategories": { "type": "array", "description": "Array of monthly costs" },
+        "events": { "type": "array", "description": "List of timelined sandbox incidents" }
+      },
+      "required": ["uid", "email", "createdAt", "updatedAt", "params", "incomeStreams", "expenseCategories", "events"]
+    },
+    "Scenario": {
+      "title": "Scenario",
+      "description": "Specific sub-path timeline sandbox state preset.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Scenario UUID" },
+        "name": { "type": "string", "description": "Display nickname" },
+        "description": { "type": "string", "description": "Contextual help text" },
+        "incomeStreams": { "type": "array" },
+        "expenseCategories": { "type": "array" },
+        "events": { "type": "array" },
+        "ownerId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "description", "incomeStreams", "expenseCategories", "events", "ownerId", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserConfig",
+      "description": "The active simulation template configuration for the localized user."
+    },
+    "/users/{userId}/scenarios/{scenarioId}": {
+      "schema": "Scenario",
+      "description": "User specified custom sub-scenario records."
+    }
+  }
+}
